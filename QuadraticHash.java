@@ -8,13 +8,13 @@ public class QuadraticHash extends HashTable {
 	}
 
 	@Override
-	public Object get(int k) {
+	public MElement get(int k) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object remove(int k) {
+	public MElement remove(int k) {
 		// TODO Auto-generated method stub
 		return null;
 	}
