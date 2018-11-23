@@ -1,8 +1,8 @@
 import java.util.Random;
 
-public class MElement<K,V> {
+public class MElement {
 	private int key;
-	private V value;
+	private Object value;
 	private Random random = new Random();	//random generator
 	
 	/**
@@ -20,7 +20,7 @@ public class MElement<K,V> {
 	 * @param k designated key
 	 * @param v designated value
 	 */
-	public MElement(int k, V v)
+	public MElement(int k, Object v)
 	{
 		key = k;
 		value = v;
@@ -39,7 +39,7 @@ public class MElement<K,V> {
 	 * <h1> gets the value </h1>
 	 * @return value
 	 */
-	public V getValue()
+	public Object getValue()
 	{
 		return value;
 	}
@@ -57,7 +57,7 @@ public class MElement<K,V> {
 	 * <h1> sets the value </h1>
 	 * @param v new value
 	 */
-	public void setValue(V v)
+	public void setValue(Object v)
 	{
 		value = v;
 	}
