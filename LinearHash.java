@@ -1,11 +1,18 @@
-import java.util.Arrays;
+import java.util.*;
 
 public class LinearHash extends HashTable {
 	
 	private static int collisionNum=0;
+	
 	public LinearHash()
 	{
 		bucket = new MElement[128];
+		size=0;
+	}
+	
+	public LinearHash(int n)
+	{
+		bucket = new MElement[n];
 		size=0;
 	}
 	
@@ -66,15 +73,57 @@ public class LinearHash extends HashTable {
 	}
 
 	@Override
-	public MElement get(int k) {
-		// TODO Auto-generated method stub
-		return null;
+	public MElement get(int k)
+	{
+		MElement toReturn = new MElement(k, null);
+		//getting compressed index for bucket
+		int hashKey = toReturn.hashCode()%bucket.length;
+		int last = hashKey;
+		boolean x=true;//condition for loop
+		
+		while(x)
+		{
+			if(bucket[hashKey].equals(toReturn))
+			{
+				toReturn = bucket[hashKey];
+				x = false;
+			}
+			else 
+				hashKey = (hashKey+1)%bucket.length;
+			//after full table traversal
+			if(hashKey==last)
+				toReturn = null;
+		}//end while
+
+		return toReturn;
 	}
 
 	@Override
-	public MElement remove(int k) {
-		// TODO Auto-generated method stub
-		return null;
+	public MElement remove(int k)
+	{
+		MElement toReturn = new MElement(k, null);
+		//getting compressed index for bucket
+		int hashKey = toReturn.hashCode()%bucket.length;
+		int last = hashKey;
+		boolean x=true;//condition for loop
+		
+		while(x)
+		{
+			if(bucket[hashKey].equals(toReturn))
+			{
+				toReturn = bucket[hashKey];
+				bucket[hashKey]=null;
+				x = false;
+			}
+			else 
+				hashKey = (hashKey+1)%bucket.length;
+			//after full table traversal
+			if(hashKey==last)
+				toReturn = null;
+		}//end while
+
+		return toReturn;
+		
 	}
 
 }
