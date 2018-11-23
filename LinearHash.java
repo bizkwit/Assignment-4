@@ -4,12 +4,19 @@ public class LinearHash extends HashTable {
 	
 	private static int collisionNum=0;
 	
+	/**
+	 * <h1> default constructor </h1>
+	 */
 	public LinearHash()
 	{
 		bucket = new MElement[128];
 		size=0;
 	}
 	
+	/**
+	 * <h1> custom constructor </h1>
+	 * @param n given number for size
+	 */
 	public LinearHash(int n)
 	{
 		bucket = new MElement[n];
@@ -26,6 +33,12 @@ public class LinearHash extends HashTable {
 		   bucket = Arrays.copyOf(bucket, newSize);
 	 }
 	
+	/**
+	 * <h1> put new element </h1>
+	 * if exist a n element with same key, just update value. insert otherwise.
+	 * @param k a given key
+	 * @param v a given value
+	 */
 	@Override
 	public void put(int k, Object v) 
 	{
@@ -71,7 +84,12 @@ public class LinearHash extends HashTable {
 		System.out.println("Time to run the put method: "+(endTime-startTime));
 		size++;
 	}
-
+	
+	/**
+	 * <h1> gets element </h1>
+	 * returns the element of a given key. null otherwise
+	 * @param k given key
+	 */
 	@Override
 	public MElement get(int k)
 	{
@@ -94,10 +112,14 @@ public class LinearHash extends HashTable {
 			if(hashKey==last)
 				toReturn = null;
 		}//end while
-
 		return toReturn;
 	}
-
+	
+	/**
+	 * <h1> removes an element </h1>
+	 * removes an element given a key
+	 * @param k given key
+	 */
 	@Override
 	public MElement remove(int k)
 	{
@@ -121,7 +143,6 @@ public class LinearHash extends HashTable {
 			if(hashKey==last)
 				toReturn = null;
 		}//end while
-
 		return toReturn;
 		
 	}
