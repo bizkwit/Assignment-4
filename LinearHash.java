@@ -35,7 +35,7 @@ public class LinearHash extends HashTable {
 	
 	/**
 	 * <h1> put new element </h1>
-	 * if exist a n element with same key, just update value. insert otherwise.
+	 * if exist a n element with same key, just update value. insert otherwise. and print the execution time
 	 * @param k a given key
 	 * @param v a given value
 	 */
@@ -87,7 +87,7 @@ public class LinearHash extends HashTable {
 	
 	/**
 	 * <h1> gets element </h1>
-	 * returns the element of a given key. null otherwise
+	 * returns the element of a given key. null otherwise and print the execution time
 	 * @param k given key
 	 */
 	@Override
@@ -99,6 +99,7 @@ public class LinearHash extends HashTable {
 		int last = hashKey;
 		boolean x=true;//condition for loop
 		
+		long startTime = System.currentTimeMillis();
 		while(x)
 		{
 			if(bucket[hashKey].equals(toReturn))
@@ -112,12 +113,14 @@ public class LinearHash extends HashTable {
 			if(hashKey==last)
 				toReturn = null;
 		}//end while
+		long endTime = System.currentTimeMillis();
+		System.out.println("Time to run the get method: "+(endTime-startTime));
 		return toReturn;
 	}
 	
 	/**
 	 * <h1> removes an element </h1>
-	 * removes an element given a key
+	 * removes an element given a key and prints the execution time
 	 * @param k given key
 	 */
 	@Override
@@ -129,6 +132,7 @@ public class LinearHash extends HashTable {
 		int last = hashKey;
 		boolean x=true;//condition for loop
 		
+		long startTime = System.currentTimeMillis();
 		while(x)
 		{
 			if(bucket[hashKey].equals(toReturn))
@@ -143,8 +147,10 @@ public class LinearHash extends HashTable {
 			if(hashKey==last)
 				toReturn = null;
 		}//end while
+		long endTime = System.currentTimeMillis();
+		System.out.println("Time to run the remove method: "+(endTime-startTime));
+		size--;
 		return toReturn;
-		
 	}
 
 }
