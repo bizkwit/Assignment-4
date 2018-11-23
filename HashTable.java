@@ -2,7 +2,7 @@
 public abstract class  HashTable {
 	
 	protected int size;
-	protected int[] bucket;
+	protected MElement[] bucket;
 	
 	
 	public int size()
@@ -17,8 +17,8 @@ public abstract class  HashTable {
 	
 	//for implementaion by children
 	abstract public void put(int k, Object v);
-	abstract public Object get(int k);
-	abstract public Object remove(int k);
+	abstract public MElement get(int k);
+	abstract public MElement remove(int k);
 	
 	
 	/*{
