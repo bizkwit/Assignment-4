@@ -1,8 +1,8 @@
 
 public abstract class  HashTable {
 	
-	private int size;
-	private int[] bucket;
+	protected int size;
+	protected int[] bucket;
 	
 	
 	public int size()
