@@ -91,8 +91,35 @@ public class QuadraticHash extends HashTable {
 
 	@Override
 	public MElement remove(int k) {
-		// TODO Auto-generated method stub
-		return null;
+		MElement toReturn = new MElement(k, null);
+		//getting compressed index for bucket
+		int hashKey = toReturn.hashCode()%bucket.length;
+		int last = hashKey;
+		boolean x=true;//condition for loop
+		int j=0;
+
+		long startTime = System.currentTimeMillis();
+		while(x)
+		{
+			if(bucket[hashKey].equals(toReturn))
+			{
+				toReturn = bucket[hashKey];
+				bucket[hashKey]=null;
+				x = false;
+			}
+			else 
+			{
+				hashKey = (hashKey+(int)Math.pow(j,2))%bucket.length;
+				j++;
+			}
+			//after full table traversal
+			if(hashKey==last)
+				toReturn = null;
+		}//end while
+		long endTime = System.currentTimeMillis();
+		System.out.println("Time to run the remove method: "+(endTime-startTime));
+		size--;
+		return toReturn;
 	}
 
 }
