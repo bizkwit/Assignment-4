@@ -10,6 +10,10 @@ public class ChainingHash extends HashTable {
 	private int collisions;
 	private int entries;
 	
+	public boolean isEmpty() {
+		return collisions==0;
+	}
+	
 	/*0)print table size
 	 *1)create MElement
 	 *2)get hashKey from k
@@ -27,9 +31,9 @@ public class ChainingHash extends HashTable {
 	 */
 	@Override
 	public void put(int k, Object v) {
-		long start=System.nanoTime();
 		MElement node= new MElement(k,null);//1
 		int hashKey=node.hashCode()%bucket.length;//2
+		long start=System.nanoTime();
 		if((bucket[hashKey] != null)&&bucket[hashKey].equals(node)) {//4 non-empty index, same key
 			bucket[hashKey]=node;
 		}
@@ -50,8 +54,8 @@ public class ChainingHash extends HashTable {
 		else if(bucket[hashKey]==null) {//4 empty index
 			bucket[hashKey]=node;
 		}
-		node.setValue(v);
 		long end=System.nanoTime();
+		node.setValue(v);
 		entries++;
 		System.out.println("Number of elements in the table: "+entries);//5 print entries
 		System.out.println("Number of keys that resulted in a collision: "+collisions);//6 print collisions
