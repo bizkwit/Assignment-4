@@ -81,7 +81,7 @@ public class MElement {
 			return false;
 		else if(n.getClass()!=this.getClass())
 			return false;
-		else if (key==n.getKey() && value.equals(n.getValue()))
+		else if (key==n.getKey())
 			return true;
 		else
 			return false;
@@ -107,5 +107,9 @@ public class MElement {
 		for(int i=1; i<=keyArray.length-1; i++)
 			toReturn+=keyArray[i]*(long)Math.pow(33,i);
 		return toReturn;
+	}
+	
+	public boolean isLinkedList() {
+		return false;
 	}
 }

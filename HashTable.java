@@ -22,7 +22,8 @@ public abstract class  HashTable {
 	
 	
 	/*{
-		Object toReturn = null;
+		MElement toReturn = null;
+		
 		int hashKey = hashCode(k) % bucket.length;
 		
 		toReturn = bucket[hashKey];
@@ -30,8 +31,6 @@ public abstract class  HashTable {
 		return toReturn;
 		
 	}*/
-	
-	
 	
 	
 	public int hashCode(int key)

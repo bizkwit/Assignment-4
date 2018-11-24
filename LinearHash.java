@@ -55,7 +55,7 @@ public class LinearHash extends HashTable {
 		int last = hashKey;
 		if(bucket[hashKey]!=null && bucket[hashKey].getKey()!= k)
 			collisionNum++;
-		long startTime = System.currentTimeMillis();
+		long startTime = System.nanoTime();
 		while (x)
 		{
 			if(bucket[hashKey]!=null && bucket[hashKey].getKey()==k)
@@ -77,11 +77,11 @@ public class LinearHash extends HashTable {
 				x=false;
 			}
 		}//end of while
-		long endTime = System.currentTimeMillis();
+		long endTime = System.nanoTime();
 		System.out.println("Number of elements in the table: "+size);
 		System.out.println("Number of keys that resulted in a collision: "+collisionNum);
 		System.out.println("Number od probing attemos before adding: "+probingNum);
-		System.out.println("Time to run the put method: "+(endTime-startTime));
+		System.out.println("Time to run the put method: (ns)"+(endTime-startTime));
 		size++;
 	}
 	
@@ -99,7 +99,7 @@ public class LinearHash extends HashTable {
 		int last = hashKey;
 		boolean x=true;//condition for loop
 		
-		long startTime = System.currentTimeMillis();
+		long startTime = System.nanoTime();
 		while(x)
 		{
 			if(bucket[hashKey].equals(toReturn))
@@ -113,8 +113,8 @@ public class LinearHash extends HashTable {
 			if(hashKey==last)
 				toReturn = null;
 		}//end while
-		long endTime = System.currentTimeMillis();
-		System.out.println("Time to run the get method: "+(endTime-startTime));
+		long endTime = System.nanoTime();
+		System.out.println("Time to run the get method: (ns)"+(endTime-startTime));
 		return toReturn;
 	}
 	
@@ -132,7 +132,7 @@ public class LinearHash extends HashTable {
 		int last = hashKey;
 		boolean x=true;//condition for loop
 		
-		long startTime = System.currentTimeMillis();
+		long startTime = System.nanoTime();
 		while(x)
 		{
 			if(bucket[hashKey].equals(toReturn))
@@ -147,8 +147,8 @@ public class LinearHash extends HashTable {
 			if(hashKey==last)
 				toReturn = null;
 		}//end while
-		long endTime = System.currentTimeMillis();
-		System.out.println("Time to run the remove method: "+(endTime-startTime));
+		long endTime = System.nanoTime();
+		System.out.println("Time to run the remove method: (ns)"+(endTime-startTime));
 		size--;
 		return toReturn;
 	}
