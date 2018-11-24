@@ -4,12 +4,19 @@ public abstract class  HashTable {
 	protected int size;
 	protected MElement[] bucket;
 	
-	
+	/**
+	 * <h1> checks for the size of the hash table </h1>
+	 * @return the number of elements in the table
+	 */
 	public int size()
 	{
 		return size;
 	}
 	
+	/**
+	 * <h1> checks if hash table is empty </h1>
+	 * @return true if empty, false otherwise
+	 */
 	public boolean isEmpty()
 	{
 		return size==0;
@@ -19,18 +26,6 @@ public abstract class  HashTable {
 	abstract public void put(int k, Object v);
 	abstract public MElement get(int k);
 	abstract public MElement remove(int k);
-	
-	
-	/*{
-		MElement toReturn = null;
-		
-		int hashKey = hashCode(k) % bucket.length;
-		
-		toReturn = bucket[hashKey];
-		
-		return toReturn;
-		
-	}*/
 	
 	
 	public int hashCode(int key)
