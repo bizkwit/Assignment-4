@@ -101,7 +101,7 @@ public class QuadraticHash extends HashTable {
 		long startTime = System.nanoTime();
 		while(x)
 		{
-			if(bucket[hashKey].equals(toReturn))
+			if(bucket[hashKey].equals(toReturn) && bucket[hashKey] != null)
 			{
 				toReturn = bucket[hashKey];
 				bucket[hashKey]=null;
@@ -109,12 +109,12 @@ public class QuadraticHash extends HashTable {
 			}
 			else 
 			{
-				hashKey = (hashKey+(int)Math.pow(j,2))%bucket.length;
-				j++;
+				hashKey = (hashKey+(int)Math.pow(++j,2))%bucket.length;
+				//after full table traversal
+				if(hashKey==last)
+					toReturn = null;
 			}
-			//after full table traversal
-			if(hashKey==last)
-				toReturn = null;
+			
 		}//end while
 		long endTime = System.nanoTime();
 		System.out.println("Time to run the remove method: "+(endTime-startTime));
