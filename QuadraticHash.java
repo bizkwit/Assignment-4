@@ -37,10 +37,9 @@ public class QuadraticHash extends HashTable {
 			}
 			else if(bucket[hashKey]!=null && bucket[hashKey].getKey()!= k)
 			{
-				hashKey= (hashKey+(int)Math.pow(j,2))%bucket.length;
+				hashKey= (hashKey+(int)Math.pow(++j,2))%bucket.length;
 				if( hashKey == last)
 					break;
-				j++;
 				probingNum++;
 				x=true;
 			}
@@ -71,19 +70,19 @@ public class QuadraticHash extends HashTable {
 		long startTime = System.nanoTime();
 		while(x)
 		{
-			if(bucket[hashKey].equals(toReturn))
+			if(bucket[hashKey].equals(toReturn) && bucket[hashKey] != null)
 			{
 				toReturn = bucket[hashKey];
 				x = false;
 			}
 			else 
 			{
-				hashKey = (hashKey+(int)Math.pow(j, 2))%bucket.length;
-				j++;
+				hashKey = (hashKey+(int)Math.pow(++j, 2))%bucket.length;
+				//after full table traversal
+				if(hashKey==last)
+					toReturn = null;
 			}
-			//after full table traversal
-			if(hashKey==last)
-				toReturn = null;
+			
 		}//end while
 		long endTime = System.nanoTime();
 		System.out.println("Time to run the get method: "+(endTime-startTime));
