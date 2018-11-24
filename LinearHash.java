@@ -109,10 +109,14 @@ public class LinearHash extends HashTable {
 				x = false;
 			}
 			else 
+			{
 				hashKey = (hashKey+1)%bucket.length;
-			//after full table traversal
-			if(hashKey==last)
-				toReturn = null;
+				//after full table traversal
+				if(hashKey==last)
+					toReturn = null;
+			}
+			
+			
 		}//end while
 		long endTime = System.nanoTime();
 		System.out.println("Time to run the get method: "+(endTime-startTime));
