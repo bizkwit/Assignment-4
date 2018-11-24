@@ -1,7 +1,7 @@
 
 public class QuadraticHash extends HashTable {
 	
-	private static int collisionNum=0;
+	private static int QuadraticCollisionNum=0;
 	
 	public QuadraticHash()
 	{
@@ -25,7 +25,7 @@ public class QuadraticHash extends HashTable {
 		int probingNum=0;
 		int j=0;
 		if(bucket[hashKey]!=null && bucket[hashKey].getKey()!= k)
-			collisionNum++;
+			QuadraticCollisionNum++;
 		
 		long startTime = System.nanoTime();
 		while(x)
@@ -35,15 +35,15 @@ public class QuadraticHash extends HashTable {
 				bucket[hashKey].setValue(v);
 				x=false;
 			}
-			else if(bucket[hashKey]!=null && bucket[hashKey].getKey()!= k && hashKey != last)
+			else if(bucket[hashKey]!=null && bucket[hashKey].getKey()!= k)
 			{
 				hashKey= (hashKey+(int)Math.pow(j,2))%bucket.length;
+				if( hashKey == last)
+					break;
 				j++;
 				probingNum++;
 				x=true;
 			}
-			else if( hashKey == last)
-				break;
 			else
 			{
 				bucket[hashKey] = toPut;
@@ -51,11 +51,12 @@ public class QuadraticHash extends HashTable {
 			}
 		}//end while
 		long endTime = System.nanoTime();
-		System.out.println("Number of elements in the table: "+size);
-		System.out.println("Number of keys that resulted in a collision: "+collisionNum);
-		System.out.println("Number od probing attemos before adding: "+probingNum);
-		System.out.println("Time to run the put method: (ns)"+(endTime-startTime));
 		size++;
+		System.out.println("Number of elements in the table: "+size);
+		System.out.println("Number of keys that resulted in a collision: "+QuadraticCollisionNum);
+		System.out.println("Number od probing attemos before adding: "+probingNum);
+		System.out.println("Time to run the put method: "+(endTime-startTime));
+		
 	}
 
 	@Override
@@ -85,7 +86,7 @@ public class QuadraticHash extends HashTable {
 				toReturn = null;
 		}//end while
 		long endTime = System.nanoTime();
-		System.out.println("Time to run the get method: (ns)"+(endTime-startTime));
+		System.out.println("Time to run the get method: "+(endTime-startTime));
 		return toReturn;
 	}
 
@@ -117,7 +118,7 @@ public class QuadraticHash extends HashTable {
 				toReturn = null;
 		}//end while
 		long endTime = System.nanoTime();
-		System.out.println("Time to run the remove method: (ns)"+(endTime-startTime));
+		System.out.println("Time to run the remove method: "+(endTime-startTime));
 		size--;
 		return toReturn;
 	}
