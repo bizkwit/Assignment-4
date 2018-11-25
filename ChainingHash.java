@@ -74,16 +74,18 @@ public class ChainingHash extends HashTable {
 	 */
 	@Override
 	public MElement get(int k) {
-		long start=System.currentTimeMillis();
+		long start=System.nanoTime();
 		MElement node = new MElement(k,null);
 		int hashKey=node.hashCode()%bucket.length;//1,2
-		if(!bucket[hashKey].isLinkedList()) {//3 not a list
-			node=bucket[hashKey];
+		if(bucket[hashKey]!=null) {//CHECK BUCKET TO SEE IF ITS NULL PRE-EMPTIVELY
+			if(!bucket[hashKey].isLinkedList()) {//3 not a list
+				node=bucket[hashKey];
+			}
+			if(bucket[hashKey].isLinkedList()) {//4
+				node=((myLinkedList)bucket[hashKey]).find(node);
+			}
 		}
-		if(bucket[hashKey].isLinkedList()) {//4
-			node=((myLinkedList)bucket[hashKey]).find(node);
-		}
-		long end=System.currentTimeMillis();
+		long end=System.nanoTime();
 		//print time
 		System.out.println("Time to run the get method: "+(end-start)+"\n");//6
 		return node;//5
@@ -100,18 +102,20 @@ public class ChainingHash extends HashTable {
 	 */
 	@Override
 	public MElement remove(int k) {
-		long start=System.currentTimeMillis();
+		long start=System.nanoTime();
 		MElement node = new MElement(k,null);
 		int hashKey=node.hashCode()%bucket.length;//1,2
-		if(bucket[hashKey].isLinkedList()) {//4
-			node=((myLinkedList)bucket[hashKey]).remove(node);
+		if(bucket[hashKey]!=null) {//CHECK BUCKET TO SEE IF ITS NULL PRE-EMPTIVELY
+			if(bucket[hashKey].isLinkedList()) {//4
+				node=((myLinkedList)bucket[hashKey]).remove(node);
+			}
+			else {//3
+				node.setValue(bucket[hashKey].getValue());
+				bucket[hashKey]=null;
+			}
+			entries--;
 		}
-		else {//3
-			node.setValue(bucket[hashKey].getValue());
-			bucket[hashKey]=null;
-		}
-		entries--;
-		long end=System.currentTimeMillis();//7
+		long end=System.nanoTime();//7
 		//print time
 		System.out.println("Time to run the remove method: "+(end-start)+"\n");
 		return node;//5

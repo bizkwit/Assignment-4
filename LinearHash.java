@@ -2,7 +2,7 @@ import java.util.*;
 
 public class LinearHash extends HashTable {
 	
-	private static int collisionNum=0;
+	private static int LinearCollisionNum=0;
 	
 	/**
 	 * <h1> default constructor </h1>
@@ -54,7 +54,7 @@ public class LinearHash extends HashTable {
 		int hashKey = toPut.hashCode() % bucket.length;
 		int last = hashKey;
 		if(bucket[hashKey]!=null && bucket[hashKey].getKey()!= k)
-			collisionNum++;
+			LinearCollisionNum++;
 		long startTime = System.nanoTime();
 		while (x)
 		{
@@ -63,26 +63,27 @@ public class LinearHash extends HashTable {
 				bucket[hashKey].setValue(v);
 				x=false;
 			}
-			else if(bucket[hashKey]!=null && bucket[hashKey].getKey()!= k && hashKey != last)
+			else if(bucket[hashKey]!=null && bucket[hashKey].getKey()!= k )
 			{
 				hashKey= (hashKey+1)%bucket.length;
+				if( hashKey == last)
+					break;
 				probingNum++;
 				x=true;
 			}
-			else if( hashKey == last)
-				break;
-			else
+			else 
 			{
 				bucket[hashKey] = toPut;
 				x=false;
 			}
 		}//end of while
 		long endTime = System.nanoTime();
-		System.out.println("Number of elements in the table: "+size);
-		System.out.println("Number of keys that resulted in a collision: "+collisionNum);
-		System.out.println("Number od probing attemos before adding: "+probingNum);
-		System.out.println("Time to run the put method: (ns)"+(endTime-startTime));
 		size++;
+		System.out.println("Number of elements in the table: "+size);
+		System.out.println("Number of keys that resulted in a collision: "+LinearCollisionNum);
+		System.out.println("Number of probing attempts before adding: "+probingNum);
+		System.out.println("Time to run the put method: "+(endTime-startTime));
+		
 	}
 	
 	/**
@@ -102,19 +103,40 @@ public class LinearHash extends HashTable {
 		long startTime = System.nanoTime();
 		while(x)
 		{
-			if(bucket[hashKey].equals(toReturn))
-			{
-				toReturn = bucket[hashKey];
-				x = false;
+			if(bucket[hashKey]!=null)//CHECKS IF BUCKET IF NULL PRE-EMPTIVELY
+			{	
+				System.out.println("Bucket is full, looking in...");
+				if(bucket[hashKey].equals(toReturn))
+				{
+					toReturn = bucket[hashKey];
+					x = false;
+				}
+				else 
+				{
+					hashKey = (hashKey+1)%bucket.length;// =>PROBING WHEN IT FINDS A FULL BUCKET WITH A DIFFERENT ELEMENT
+					//after full table traversal
+					if(hashKey==last)
+						toReturn = null;
+						x=false;
+				}
+
 			}
-			else 
-				hashKey = (hashKey+1)%bucket.length;
-			//after full table traversal
-			if(hashKey==last)
-				toReturn = null;
+			else if(bucket[hashKey]==null) //NULL BUCKET => PROBING
+			{
+				System.out.println("Bucket is empty,probing..");
+				hashKey = (hashKey+1)%bucket.length;// =>PROBING WHEN IT FINDS A NULL BUCKET
+				//after full table traversal
+				if(hashKey==last)
+				{	
+					System.out.println("After probing, Element not found...");
+					toReturn = null;
+					x=false;
+				}
+			}
+			
 		}//end while
 		long endTime = System.nanoTime();
-		System.out.println("Time to run the get method: (ns)"+(endTime-startTime));
+		System.out.println("Time to run the get method: "+(endTime-startTime));
 		return toReturn;
 	}
 	
@@ -131,24 +153,45 @@ public class LinearHash extends HashTable {
 		int hashKey = toReturn.hashCode()%bucket.length;
 		int last = hashKey;
 		boolean x=true;//condition for loop
-		
+
 		long startTime = System.nanoTime();
 		while(x)
-		{
-			if(bucket[hashKey].equals(toReturn))
-			{
-				toReturn = bucket[hashKey];
-				bucket[hashKey]=null;
-				x = false;
+		{	
+			if(bucket[hashKey]!=null)//CHECKS IF BUCKET IF NULL PRE-EMPTIVELY
+			{	
+				System.out.println("Bucket is full, looking in...");
+				if(bucket[hashKey].equals(toReturn))
+				{
+					toReturn = bucket[hashKey];
+					bucket[hashKey]=null;
+					x = false;
+				}
+				else 
+				{
+					hashKey = (hashKey+1)%bucket.length;// =>PROBING WHEN IT FINDS A FULL BUCKET WITH A DIFFERENT ELEMENT
+					//after full table traversal
+					if(hashKey==last)
+						toReturn = null;
+						x=false;
+				}
+
 			}
-			else 
-				hashKey = (hashKey+1)%bucket.length;
-			//after full table traversal
-			if(hashKey==last)
-				toReturn = null;
+			else if(bucket[hashKey]==null) //NULL BUCKET => PROBING
+			{
+				System.out.println("Bucket is empty,probing..");
+				hashKey = (hashKey+1)%bucket.length;// =>PROBING WHEN IT FINDS A NULL BUCKET
+				//after full table traversal
+				if(hashKey==last)
+				{	
+					System.out.println("After probing, Element not found...");
+					toReturn = null;
+					x=false;
+				}				
+			}
+						
 		}//end while
 		long endTime = System.nanoTime();
-		System.out.println("Time to run the remove method: (ns)"+(endTime-startTime));
+		System.out.println("Time to run the remove method: "+(endTime-startTime));
 		size--;
 		return toReturn;
 	}

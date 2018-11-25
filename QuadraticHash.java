@@ -1,7 +1,7 @@
 
 public class QuadraticHash extends HashTable {
 	
-	private static int collisionNum=0;
+	private static int QuadraticCollisionNum=0;
 	
 	public QuadraticHash()
 	{
@@ -25,7 +25,7 @@ public class QuadraticHash extends HashTable {
 		int probingNum=0;
 		int j=0;
 		if(bucket[hashKey]!=null && bucket[hashKey].getKey()!= k)
-			collisionNum++;
+			QuadraticCollisionNum++;
 		
 		long startTime = System.nanoTime();
 		while(x)
@@ -35,15 +35,14 @@ public class QuadraticHash extends HashTable {
 				bucket[hashKey].setValue(v);
 				x=false;
 			}
-			else if(bucket[hashKey]!=null && bucket[hashKey].getKey()!= k && hashKey != last)
+			else if(bucket[hashKey]!=null && bucket[hashKey].getKey()!= k)
 			{
-				hashKey= (hashKey+(int)Math.pow(j,2))%bucket.length;
-				j++;
+				hashKey= (hashKey+(int)Math.pow(++j,2))%bucket.length;
+				if( hashKey == last)
+					break;
 				probingNum++;
 				x=true;
 			}
-			else if( hashKey == last)
-				break;
 			else
 			{
 				bucket[hashKey] = toPut;
@@ -51,11 +50,12 @@ public class QuadraticHash extends HashTable {
 			}
 		}//end while
 		long endTime = System.nanoTime();
-		System.out.println("Number of elements in the table: "+size);
-		System.out.println("Number of keys that resulted in a collision: "+collisionNum);
-		System.out.println("Number od probing attemos before adding: "+probingNum);
-		System.out.println("Time to run the put method: (ns)"+(endTime-startTime));
 		size++;
+		System.out.println("Number of elements in the table: "+size);
+		System.out.println("Number of keys that resulted in a collision: "+QuadraticCollisionNum);
+		System.out.println("Number od probing attemos before adding: "+probingNum);
+		System.out.println("Time to run the put method: "+(endTime-startTime));
+		
 	}
 
 	@Override
@@ -70,22 +70,37 @@ public class QuadraticHash extends HashTable {
 		long startTime = System.nanoTime();
 		while(x)
 		{
-			if(bucket[hashKey].equals(toReturn))
-			{
-				toReturn = bucket[hashKey];
-				x = false;
+			if(bucket[hashKey]!=null)//CHECKS IF BUCKET IF NULL PRE-EMPTIVELY
+			{	
+				System.out.println("Bucket is full, looking in...");
+				if(bucket[hashKey].equals(toReturn))
+				{
+					toReturn = bucket[hashKey];
+					x = false;
+				}
+				else 
+				{
+					hashKey = (hashKey+(int)Math.pow(++j,2))%bucket.length;// =>PROBING WHEN IT FINDS A FULL BUCKET WITH A DIFFERENT ELEMENT
+					//after full table traversal
+					if(hashKey==last)
+						toReturn = null;
+				}
 			}
-			else 
-			{
-				hashKey = (hashKey+(int)Math.pow(j, 2))%bucket.length;
-				j++;
+			else if (bucket[hashKey]==null) {
+				System.out.println("Bucket is empty,probing..");
+				hashKey = (hashKey+(int)Math.pow(++j,2))%bucket.length;// =>PROBING WHEN IT FINDS A NULL BUCKET
+				//after full table traversal
+				if(hashKey==last)
+				{
+					System.out.println("After probing, Element not found...");
+					toReturn = null;
+					x=false;
+				}
 			}
-			//after full table traversal
-			if(hashKey==last)
-				toReturn = null;
+			
 		}//end while
 		long endTime = System.nanoTime();
-		System.out.println("Time to run the get method: (ns)"+(endTime-startTime));
+		System.out.println("Time to run the get method: "+(endTime-startTime));
 		return toReturn;
 	}
 
@@ -101,23 +116,38 @@ public class QuadraticHash extends HashTable {
 		long startTime = System.nanoTime();
 		while(x)
 		{
-			if(bucket[hashKey].equals(toReturn))
-			{
-				toReturn = bucket[hashKey];
-				bucket[hashKey]=null;
-				x = false;
+			if(bucket[hashKey]!=null)//CHECKS IF BUCKET IF NULL PRE-EMPTIVELY
+			{	
+				System.out.println("Bucket is full, looking in...");
+				if(bucket[hashKey].equals(toReturn))
+				{
+					toReturn = bucket[hashKey];
+					bucket[hashKey]=null;
+					x = false;
+				}
+				else 
+				{
+					hashKey = (hashKey+(int)Math.pow(++j,2))%bucket.length;// =>PROBING WHEN IT FINDS A FULL BUCKET WITH A DIFFERENT ELEMENT
+					//after full table traversal
+					if(hashKey==last)
+						toReturn = null;
+				}
 			}
-			else 
-			{
-				hashKey = (hashKey+(int)Math.pow(j,2))%bucket.length;
-				j++;
+			else if (bucket[hashKey]==null) {
+				System.out.println("Bucket is empty,probing..");
+				hashKey = (hashKey+(int)Math.pow(++j,2))%bucket.length;// =>PROBING WHEN IT FINDS A NULL BUCKET
+				//after full table traversal
+				if(hashKey==last)
+				{
+					System.out.println("After probing, Element not found...");
+					toReturn = null;
+					x=false;
+				}
 			}
-			//after full table traversal
-			if(hashKey==last)
-				toReturn = null;
+			
 		}//end while
 		long endTime = System.nanoTime();
-		System.out.println("Time to run the remove method: (ns)"+(endTime-startTime));
+		System.out.println("Time to run the remove method: "+(endTime-startTime));
 		size--;
 		return toReturn;
 	}

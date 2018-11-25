@@ -35,14 +35,8 @@ public class myLinkedList extends MElement {
 		}
 		
 		public boolean hasNext() {
-			if (next == null) {
-				return false;
-			}
-			else {
-				return true;
-			}
+			return next==null;
 		}
-				
 	}
 	
 	////////////////////////////

@@ -1,10 +1,12 @@
 import java.util.Random;
+import java.io.*;
 
 import org.omg.CORBA.SystemException;
 public class driver {
 
 	public static void main(String[] args) {
 		Random random = new Random();
+		BufferedWriter writer; //file writer
 		
 		// TODO Auto-generated method stub
 		/////////////////
@@ -59,77 +61,69 @@ public class driver {
 			i++;
 		}
 		
-		/*
+		
 		//Running get(k,v) 50 times per table
 		i=0;
 		System.out.println("////////////////////////////	get() Validation	////////////////////////////");
 		while(i<50) {
 			System.out.println("Chaining get() Iteration #: "+(i+1));
-			System.out.println("Chain value: "+chainHash.get(keyHolder[i]).toString());
+			chainHash.get(keyHolder[i]).toString(); //CATCH NO SUCH ELEMENT
 			System.out.println("\n");
 			
 			System.out.println("Linear get() Iteration #: "+(i+1));
-			System.out.println("Linear value: "+linearHash.get(keyHolder[i]).toString());
+			linearHash.get(keyHolder[i]).toString(); //CATCH NO SUCH ELEMENT
 			System.out.println("\n");
 
 			
 			System.out.println("Quadratic get() Iteration #: "+(i+1));
-			System.out.println("Quad value: "+quadHash.get(keyHolder[i]).toString());
+			quadHash.get(keyHolder[i]).toString(); //CATCH NO SUCH ELEMENT
 			System.out.println("\n");
 
 			i++;
 		}
 		
-		*/
-		
-		/*
 		//Running remove(k) 25 times per table
 		i=0;
 		System.out.println("////////////////////////////	remove() Validation		////////////////////////////");
 		while(i<25) {
 			System.out.println("Chaining remove() Iteration #: "+(i+1));
-			System.out.println("Chain value: "+chainHash.remove(keyHolder[i]));
+			chainHash.remove(keyHolder[i]); //CATCH NO SUCH ELEMENT
 			System.out.println("\n");
 			
 			System.out.println("Linear remove() Iteration #: "+(i+1));
-			System.out.println("Linear value: "+linearHash.remove(keyHolder[i]));
+			linearHash.remove(keyHolder[i]); //CTACH NO SUCH ELEMENT
 			System.out.println("\n");
 
 			
 			System.out.println("Quadratic remove() Iteration #: "+(i+1));
-			System.out.println("Quad value: "+quadHash.remove(keyHolder[i]));
+			quadHash.remove(keyHolder[i]); //CATCH NO SUCH ELEMENT
 			System.out.println("\n");
 
 			i++;
 		}
-		*/
-		
-		/*
+
 		//Running get(k,v) 50 times per table
 		i=0;
 		System.out.println("////////////////////////////	get() Validation	////////////////////////////");
 		while(i<50) {
 			System.out.println("Chaining get() Iteration #: "+(i+1));
-			System.out.println("Chain value: "+chainHash.get(keyHolder[i]).toString());
+			chainHash.get(keyHolder[i]); //CATCH NO SUCH ELEMENT
 			System.out.println("\n");
 			
 			System.out.println("Linear get() Iteration #: "+(i+1));
-			System.out.println("Linear value: "+linearHash.get(keyHolder[i]).toString());
+			linearHash.get(keyHolder[i]); //CATCH NO SUCH ELEMENT
 			System.out.println("\n");
 
 			
 			System.out.println("Quadratic get() Iteration #: "+(i+1));
-			System.out.println("Quad value: "+quadHash.get(keyHolder[i]).toString());
+			quadHash.get(keyHolder[i]);//CATCH NO SUCH ELEMENT
 			System.out.println("\n");
 
 			i++;
 		}
-		
-		*/
-		
-		
+
 		/////////////////
-		//	  STEP 5   //
+		//	  STEP 5   //////////////////ONLY NEED TO FINISH THE DOCUMENT AND THE ASSIGNMENT IS FINISHED!
 		/////////////////
 		/*make one of each hashTable, each with capacity 100
 		 *generate 150 <key,value> pairs
@@ -166,53 +160,107 @@ public class driver {
 		}
 		
 		int x=50;//ITERATIONS: 50, 75, 95, 100, 150
-		
-		System.out.println("\n////////////////////////////	put() Validation	(FOR "+x+" VALUES)	 ////////////////////////////");
-		i=0;
-		start=System.nanoTime();
-		while(i<x) {
-			chainHash.put(keyHolder[i], valueHolder[i]);
-			i++;
-		}
-		end=System.nanoTime();
-		System.out.println("\n///////		Time to run put "+x+" times for Chaining Hash: "+(end-start)+"		///////\n");
-		
-		i=0;
-		start=System.nanoTime();
-		while(i<x) {
-			linearHash.put(keyHolder[i], valueHolder[i]);
+			try {
+				writer = new BufferedWriter(new FileWriter("Experiment_and_Interpret.txt"));
+				while(x<=150){
 
-			i++;
-		}
-		end=System.nanoTime();
-		System.out.println("\n///////		Time to run put "+x+" times for Linear Hash: "+(end-start)+"		///////\n");
-		
-		
-		i=0;
-		start=System.nanoTime();
-		while(i<x) {
-			quadHash.put(keyHolder[i], valueHolder[i]);
+					System.out.println("\n////////////////////////////	put() Validation	(FOR " + x + " VALUES)	Size 100\n");
+					writer.write("\n////////////////////////////	put() Validation	(FOR " + x + " VALUES)	 Size 100\n");
+					writer.newLine();
+					i = 0;
+					start = System.nanoTime();
+					while (i < x) {
+						chainHash.put(keyHolder[i], valueHolder[i]);
+						System.out.println("\n");
+						i++;
+					}
+					end = System.nanoTime();
+					System.out.println("\n");
 
-			i++;
-		}
-		end=System.nanoTime();
-		System.out.println("\n///////		Time to run put "+x+" times for Quad Hash: "+(end-start)+"		///////\n");
-		
-		System.out.println("////////////////////////////	put() Validation	(FOR "+x+" VALUES) (Quad 101)	////////////////////////////");
-		quadHash=new QuadraticHash(101);
-		i=0;
-		start=System.nanoTime();
-		while(i<x) {
-			quadHash.put(keyHolder[i], valueHolder[i]);
+					System.out.println("\n///////		Time to run put " + x + " times for Chaining Hash: " + (end - start) + "\n");
+					writer.write("\n///////		Time to run put " + x + " times for Chaining Hash: " + (end - start) + "\n");
+					writer.newLine();
+					i = 0;
+					start = System.nanoTime();
+					while (i < x) {
+						linearHash.put(keyHolder[i], valueHolder[i]);
+						System.out.println("\n");
+						i++;
+					}
+					end = System.nanoTime();
+					System.out.println("\n");
 
-			i++;
-		}
-		end=System.nanoTime();
-		System.out.println("\n///////		Time to run put "+x+" times for Quad Hash: "+(end-start)+"		///////\n");
+					System.out.println("\n///////		Time to run put " + x + " times for Linear Hash: " + (end - start) + "\n");
+					writer.write("\n///////		Time to run put " + x + " times for Linear Hash: " + (end - start) + "\n");
+					writer.newLine();
+					i = 0;
+					start = System.nanoTime();
+					while (i < x) {
+						quadHash.put(keyHolder[i], valueHolder[i]);
+						System.out.println("\n");
+						i++;
+					}
+					end = System.nanoTime();
+					System.out.println("\n");
+
+					System.out.println("\n///////		Time to run put " + x + " times for Quad Hash: " + (end - start) + "\n");
+					writer.write("\n///////		Time to run put " + x + " times for Quad Hash: " + (end - start) + "\n");
+					writer.newLine();
+					writer.newLine();
+					System.out.println("\n");
+
+					System.out.println("////////////////////////////	put() Validation	(FOR " + x + " VALUES) (Quad 101)\n");
+					writer.write("////////////////////////////	put() Validation	(FOR " + x + " VALUES) (Quad 101)\n");
+					writer.newLine();
+					quadHash = new QuadraticHash(101);
+					i = 0;
+					start = System.nanoTime();
+					while (i < x) {
+						quadHash.put(keyHolder[i], valueHolder[i]);
+						System.out.println("\n");
+						i++;
+					}
+					end = System.nanoTime();
+					System.out.println("\n///////		Time to run put " + x + " times for Quad Hash: (size of 101) " + (end - start) + "		///////\n");
+					writer.write("\n///////		Time to run put " + x + " times for Quad Hash: (size of 101) " + (end - start) + "		///////\n");
+					writer.newLine();
+					writer.newLine();
+					writer.newLine();
+
+					writer.flush();
+					x+=5;
+				}
+				writer.close();
+			}
+			catch (IOException e1) {
+				e1.printStackTrace();
+			}
+
 		
 		/////////////////
 		//	  STEP 6   //
 		/////////////////
+		System.out.println("\n////////////////////////////	DYNAMIC RESIZING VALIDATION	 ////////////////////////////");
+
+		linearHash= new LinearHash();
+		i=0;
+		start=System.nanoTime();
+		while (i<10000){
+			linearHash.put(random.nextInt(100000),random.nextInt(100000));
+			i++;
+		}
+		end=System.nanoTime();
+		System.out.println("\nTime elapsed for 10,000 put statements with dynamic resizing: "+(end-start)+"\n");
+
+		start=System.nanoTime();
+		linearHash.put(random.nextInt(100000),random.nextInt(100000));
+		end=System.nanoTime();
+		System.out.println("\nTime needed for additional put(): "+(end-start)+"\n");
+
+		start=System.nanoTime();
+		linearHash.get(random.nextInt(100000));
+		end=System.nanoTime();
+		System.out.println("\nTime needed for additional get(): "+(end-start)+"\n");
 	}
 
 }
